@@ -253,7 +253,7 @@ class CSwarmer extends Kinematic{
 
 class EBullet extends Kinematic{
     constructor(x, y, direction, damage){
-        super("EProjectile",x, y, 6, 6,"#FFFF00")
+        super("EProjectile",x, y, 4, 4,"#FFFF00")
         this.direction = direction+90
         this.damage = damage
         this.speed = 2
@@ -276,10 +276,10 @@ class EBullet extends Kinematic{
     draw(){
         if (this.sprite != null){
             ctx.fillStyle = this.color;
-            //ctx.fillRect(this.rect.x,this.rect.y,this.rect.width,this.rect.height);
+            ctx.fillRect(this.rect.x,this.rect.y,this.rect.width,this.rect.height);
             ctx.setTransform(1, 0, 0, 1,this.rect.x+this.rect.width/2, this.rect.y+this.rect.height/2)
             ctx.rotate((this.direction-90)*Math.PI/180);
-            ctx.drawImage(this.sprite.img,-this.rect.width/2-5,-this.rect.height/2-9);
+            ctx.drawImage(this.sprite.img,-this.rect.width/2-6,-this.rect.height/2-9);
             ctx.setTransform(1,0,0,1,0,0)
             
         }

@@ -60,6 +60,7 @@ async function get_database(){
 
 async function init(){
     const db = await get_database()
+    await create_scores_table(db);
     //await remove_all_scores(db);
     all_scores = await get_all_scores(db);
     console.log(all_scores);
