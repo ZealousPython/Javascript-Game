@@ -55,6 +55,9 @@ class Anim {
 class Player extends Kinematic{
     constructor(x,y){
         super("Player", x, y, 4, 6, "#FFFF00");
+        this.lives = 3
+        this.iframes = 0;
+        this.iwindow = 90
         let idle = new Anim([player_images[0]],false,0)
         let left = new Anim([player_images[1]],false,0)
         let right = new Anim([player_images[2]],false,0)
@@ -69,10 +72,10 @@ class Player extends Kinematic{
         this.speed = 2.5;
     }
     draw(){
-        if (this.animations[this.anim].frames[this.frame] != null){
+        if (this.animations[this.anim].frames[this.frame] != null && this.iframes %6 === 0){
             ctx.drawImage(this.sprite,this.rect.x+this.sprite_offset.x,this.rect.y+this.sprite_offset.y,16,24);
         }
-        else{
+        else if (this.iframes %6 ===0){
             ctx.fillStyle = this.color;
             ctx.fillRect(this.rect.x,this.rect.y,this.rect.width,this.rect.height);
         }
@@ -96,9 +99,16 @@ class Player extends Kinematic{
         else if (this.rect.y + 14 > canvas.height){
             this.rect.y = canvas.height - 14
         }
+        if (this.iframes > 0){
+            this.iframes--
+        }
     }
     hit(){
-        console.log("hit")
+        if(this.iframes === 0){
+            this.lives--
+            this.iframes = this.iwindow
+        }
+        
     }
     controls() {//interperets inputs
         if (map["KeyW"]){
@@ -276,7 +286,7 @@ class EBullet extends Kinematic{
     draw(){
         if (this.sprite != null){
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.rect.x,this.rect.y,this.rect.width,this.rect.height);
+            //ctx.fillRect(this.rect.x,this.rect.y,this.rect.width,this.rect.height);
             ctx.setTransform(1, 0, 0, 1,this.rect.x+this.rect.width/2, this.rect.y+this.rect.height/2)
             ctx.rotate((this.direction-90)*Math.PI/180);
             ctx.drawImage(this.sprite.img,-this.rect.width/2-6,-this.rect.height/2-9);
@@ -409,7 +419,7 @@ class SideTurret extends Kinematic{
             }
         }
     }
-}
+} 
 class Skimmer extends Kinematic{
     constructor(x,y,direction){
         super("Enemy", x, y, 16, 16,"#FF00FF")

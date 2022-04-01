@@ -1,4 +1,8 @@
 
+let canvas = $("#canvas")[0];
+let ctx = canvas.getContext('2d');
+let gaming = false
+let died = false
 var loader = new PxLoader()
 player_image_paths = ["game/media/idle.png","game/media/left.png","game/media/right.png"]
 cswarm_paths = ["game/media/CSwarmer/CSwarmer1.png","game/media/CSwarmer/CSwarmer2.png","game/media/CSwarmer/CSwarmer3.png"]
@@ -8,6 +12,7 @@ player_images = []
 cswarm_images = []
 turret_images = []
 skimmer_images = []
+
 ebullet_sprite = new PxLoaderImage("game/media/EBullet.png")
 function load_images_from_path(images){
     let return_list = []

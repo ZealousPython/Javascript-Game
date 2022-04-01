@@ -1,15 +1,19 @@
 //const spawn = require("nodemon/lib/spawn");
 
-let canvas = $("#canvas")[0];
-let ctx = canvas.getContext('2d');
+//const { restart } = require("nodemon");
+
+
 canvas.width = 256
 canvas.height = 512
 ctx.font = "14px Monospace"
 total_score = 0
+
+
 function update_game(){
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle="white"
     ctx.fillText(`SCORE: ${total_score}`,2,512-7);
+    ctx.fillText(`LIVES: ${new_player.lives}`,canvas.width-80,512-7);
     for (let i = 0; i < kinematic_bodies.length;i++){
         kinematic_bodies[i].update();
     }
@@ -75,25 +79,77 @@ function combo_wave3(){
         new CSwarmer(200, -16-i*16,-1);
     }
 }
+
+let spawner_timer = setTimeout(()=>{enemy_count = 0; spawner()},12000);
+
 function spawner(){
     
     if(enemy_count === 0){
         let spawn_functions = [combo_wave1,skimmers,Turrets,CSwarm,combo_wave2,combo_wave3]
         let enemy_wave = Math.floor(Math.random()*spawn_functions.length)
         spawn_functions[enemy_wave]();
+        clearTimeout(spawner_timer)
+        spawner_timer = setTimeout(()=>{enemy_count = 0; spawner()},12000);
+        
     }
 }
 let spawing = true
+let bounus_lives = 0
+
+function game_over(){
+    ctx.font = "48px Monospace"
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.fillStyle="white"
+    ctx.fillText(`GAME OVER`,canvas.width,canvas.height);
+    ctx.font = "14px Monospace"
+}
+
+function start_screen(){
+    
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.font = "48px Monospace"
+    ctx.fillStyle="#FFFFFF"
+    ctx.fillText(`Welcome to Shoot The Space`,canvas.width,canvas.height);
+    ctx.font = "14px Monospace"
+    ctx.fillText(`Press R to Start The Game`,canvas.width,canvas.height-32);
+    
+    console.log("hi")
+}
+
+function restart_game(){
+    if(gaming == false){
+        gaming = true
+        kinematic_bodies = [];
+        new_player = new Player(canvas.width/2,canvas.height-32);
+    }
+}
 function gameloop(){
-    if (spawing)
-        spawner();
     if(map["KeyR"]){
         delete map["KeyR"]
-        spawing = false
-        console.log(kinematic_bodies)
-        
+        restart_game()
     }
-    kinematic_bodies;
-    update_game();
+    if(gaming){
+        if (Math.floor(total_score / 15000) === bounus_lives+1){
+            new_player.lives++;
+            bounus_lives++
+        }
+        if (spawing)
+            spawner();
+       
+        update_game();
+    }
+    else{
+        if(!died){
+            //start_screen()
+        }
+        else{
+            game_over()
+        }
+    }
+    //ctx.clearRect(0,0,canvas.width,canvas.height)
+    //ctx.font = "48px Monospace"
+    ctx.fillStyle="#FFFFFF"
+    ctx.fillText(`Welcome to Shoot The Space`,canvas.width,canvas.height);
+    ctx.fillText(`Press R to Start The Game`,canvas.width,canvas.height-32);
     requestAnimationFrame(gameloop)
 }
