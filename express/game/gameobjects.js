@@ -147,6 +147,7 @@ class PBullet extends Kinematic{
         }
         this.check_collisions()
         this.move()
+        this.out_of_bounds()
     }
     check_collisions(){
         for (let i = 0; i < kinematic_bodies.length;i++){
@@ -157,6 +158,12 @@ class PBullet extends Kinematic{
                     kinematic_bodies.splice(index, 1); // 2nd parameter means remove one item only
                 }
             }
+        }
+    }
+    out_of_bounds(){
+        if (this.rect.x < -32 || this.rect.x > canvas.width+32 || this.rect.y > canvas.height+32 || this.rect.y < -32){
+            const index = kinematic_bodies.indexOf(this);
+            kinematic_bodies.splice(index, 1);
         }
     }
 }
@@ -309,7 +316,7 @@ class SideTurret extends Kinematic{
         this.frame = 0
         this.frame_counter = 0
         this.sprite = this.animation.frames[this.frame]
-        
+        this.shooting = false
         this.cooldown = 0;
         this.cooldown_time = 7;
         this.angles = 0
@@ -355,13 +362,14 @@ class SideTurret extends Kinematic{
     }
     update(){
         if (this.active){
-            this.shoot()
+            if(this.shooting) this.shoot();
             this.sprite = this.animation.frames[this.frame]
             
             if (this.rect.y < this.stop_distance){
                 this.velocity.y = 3
             }
             else{
+                this.shooting = true;
                 this.velocity.y = 0
             }
             if(this.direction == "left"){
@@ -405,7 +413,7 @@ class SideTurret extends Kinematic{
 class Skimmer extends Kinematic{
     constructor(x,y,direction){
         super("Enemy", x, y, 16, 16,"#FF00FF")
-        this.health = 12;
+        this.health = 5;
         this.direction = direction
         this.speed = 4
         this.shoot_direction = 0;

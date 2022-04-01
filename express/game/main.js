@@ -40,22 +40,58 @@ function verify_name(){
         name_box.value = ""
     }
 }
-function spawner(){
-    if(enemy_count === 0){
-        let enemy_wave = Math.floor(Math.random()*2)
-        console.log(enemy_wave)
-        if (enemy_wave === 1)
-            CSwarm()
-        else{
-            Turrets();
-        }
+
+function skimmers(){
+    let start_y = -16
+    for (let i = 0; i < 4; i++){
+        new Skimmer(0, start_y, "right")
+        new Skimmer(canvas.width-16, start_y-16, "left")
+        start_y -= 32
     }
 }
+function combo_wave1(){
+    new SideTurret(0, -16, "left")
+    new SideTurret(0, -16, "right")
+    for (let i = 0; i<8;i++){
+        new CSwarmer(88, -16-i*16,-1);
+        new CSwarmer(152, -16-i*16,1);
+    }
+}
+function combo_wave2(){
+    new SideTurret(0, -16, "center")
+    for (let i = 0; i<8;i++){
+        new CSwarmer(40, -16-i*16,1);
+        new CSwarmer(200, -16-i*16,-1);
+    }
+}
+function combo_wave3(){
+    new Skimmer(0, -16, "right")
+    new Skimmer(canvas.width-16, -32, "left")
+    
+    new Skimmer(0, -48, "right")
+    new Skimmer(canvas.width-16, -64, "left")
+    for (let i = 0; i<8;i++){
+        new CSwarmer(40, -16-i*16,1);
+        new CSwarmer(200, -16-i*16,-1);
+    }
+}
+function spawner(){
+    
+    if(enemy_count === 0){
+        let spawn_functions = [combo_wave1,skimmers,Turrets,CSwarm,combo_wave2,combo_wave3]
+        let enemy_wave = Math.floor(Math.random()*spawn_functions.length)
+        spawn_functions[enemy_wave]();
+    }
+}
+let spawing = true
 function gameloop(){
-    //spawner()
+    if (spawing)
+        spawner();
     if(map["KeyR"]){
         delete map["KeyR"]
-        new Skimmer(0, -16, "right")
+        spawing = false
+        console.log(kinematic_bodies)
+        
     }
     kinematic_bodies;
     update_game();

@@ -66,4 +66,4 @@ function update_leaderboard(){
     }
   }
 }
-//setInterval(collect_score,1000)
+setInterval(collect_score,1000)
