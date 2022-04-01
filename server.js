@@ -27,6 +27,9 @@ async function update_database(db){
 async function remove_all_scores(db){
     await db.exec("DELETE FROM scores")
 }
+async function create_scores_table(db){
+    await db.exec("CREATE TABLE IF NOT EXISTS scores (id INT PRIMARY KEY, name TEXT, score TEXT)");
+}
 
 async function get_all_scores(db){
     let scores = []
