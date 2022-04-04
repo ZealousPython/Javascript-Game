@@ -109,6 +109,7 @@ let spawing = true
 let bounus_lives = 0
 
 function game_over(){
+    game_overed = true
     ctx.font = "28px Monospace"
     ctx.textAlign = 'center'
     ctx.clearRect(0,0,canvas.width,canvas.height)
@@ -133,6 +134,7 @@ function start_screen(){
 
 function restart_game(){
     if(gaming == false){
+        game_overed = false
         gaming = true
         kinematic_bodies = [];
         spawning = true
@@ -142,8 +144,8 @@ function restart_game(){
 }
 
 canvas.addEventListener("click", (e)=>{
+    if(!canvas_active)requestAnimationFrame(gameloop);
     canvas_active = true;
-    console.log("active")
 })
 function lose_focus(){
     canvas_active = false;
@@ -155,6 +157,7 @@ window.addEventListener('keydown', function(e) {
       e.preventDefault();
     }
   });
+let game_overed = false
 function gameloop(){
     if(canvas_active){
         canvas.style.borderColor = "blue"
@@ -188,10 +191,16 @@ function gameloop(){
             start_screen()
         }
         else{
-            game_over()
+            if(!game_overed)game_over();
         }
     }
     //ctx.clearRect(0,0,canvas.width,canvas.height)
     //ctx.font = "48px Monospace"
-    requestAnimationFrame(gameloop)
+    if(canvas_active){
+        requestAnimationFrame(gameloop)
+    }
+    else{
+        canvas.style.borderColor = "#CCCCCC"
+    }
+    
 }
