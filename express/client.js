@@ -42,8 +42,9 @@ function sort_scores(all_scores){
 }
 
 function submit_score(){
+  canvas_active = false
   let name_box = document.getElementById("name_input")
-  if(total_score > 0 && name_box.value.length > 0){
+  if(name_box.value.length > 0 && died && !gaming){
     socket.emit("send_score",name_box.value, total_score, data_callback);
     total_score = 0
     name_box.value = "";
@@ -54,16 +55,21 @@ function submit_score(){
 function update_leaderboard(){
   if (scores.length > 0){
     scores = sort_scores(scores)
-    leaderboard.innerHTML = `
+    let new_leaderbaord = `
+    <thead>
       <tr>
-        <td>Name:</td>
-        <td>Score:</td>
-        <td>Place:</td>
-      </tr>`
+        <th class="name">Name</th>
+        <th class="score">Score</th>
+        <th>Rank</th>
+      </tr>
+    </thead>`
     let max_loop = scores.length > 10 ? 10: scores.length;
+   new_leaderbaord +=`<tbody>`
     for (let i = 0;i < max_loop;i++){
-      leaderboard.innerHTML += `<tr><td>${scores[i].name}</td><td>${scores[i].score}</td><td>${i+1}</td></tr>`
+      new_leaderbaord += `<tr><th scope="row">${scores[i].name}</td><td>${scores[i].score}</td><td>${i+1}</td></tr>`
     }
+    new_leaderbaord +=`</tbody>`
+    leaderboard.innerHTML = new_leaderbaord;
   }
 }
 setInterval(collect_score,5000)

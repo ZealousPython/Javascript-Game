@@ -11,7 +11,9 @@ total_score = 0
 
 function update_game(){
     ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.drawImage(background.img,0,0)
     ctx.fillStyle="white"
+    ctx.textAlign = 'left';
     ctx.fillText(`SCORE: ${total_score}`,2,512-7);
     ctx.fillText(`LIVES: ${new_player.lives}`,canvas.width-80,512-7);
     for (let i = 0; i < kinematic_bodies.length;i++){
@@ -79,13 +81,23 @@ function combo_wave3(){
         new CSwarmer(200, -16-i*16,-1);
     }
 }
+function combo_wave4(){
+    new Skimmer(0, -16, "right")
+    new Skimmer(canvas.width-16, -32, "left")
+    new Skimmer(0, -48, "right")
+    new Skimmer(canvas.width-16, -64, "left")
+    for (let i = 0; i<8;i++){
+        new CSwarmer(88, -16-i*16,-1);
+        new CSwarmer(152, -16-i*16,1);
+    }
+}
 
 let spawner_timer = setTimeout(()=>{enemy_count = 0; spawner()},12000);
 
 function spawner(){
     
     if(enemy_count === 0){
-        let spawn_functions = [combo_wave1,skimmers,Turrets,CSwarm,combo_wave2,combo_wave3]
+        let spawn_functions = [combo_wave1,skimmers,Turrets,CSwarm,combo_wave2,combo_wave3, combo_wave4]
         let enemy_wave = Math.floor(Math.random()*spawn_functions.length)
         spawn_functions[enemy_wave]();
         clearTimeout(spawner_timer)
@@ -97,36 +109,60 @@ let spawing = true
 let bounus_lives = 0
 
 function game_over(){
-    ctx.font = "48px Monospace"
+    ctx.font = "28px Monospace"
+    ctx.textAlign = 'center'
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle="white"
-    ctx.fillText(`GAME OVER`,canvas.width,canvas.height);
+    ctx.fillText(`GAME OVER`,canvas.width/2,canvas.height/2);
+    ctx.font = "20px Monospace"
+    ctx.fillText(`FINAL SCORE: ${total_score}`,canvas.width/2,canvas.height/2+32);
     ctx.font = "14px Monospace"
+    ctx.fillText(`Press R to Restart`,canvas.width/2,canvas.height-7);
 }
 
 function start_screen(){
     
     ctx.clearRect(0,0,canvas.width,canvas.height)
-    ctx.font = "48px Monospace"
+    ctx.font = "28px Monospace"
     ctx.fillStyle="#FFFFFF"
-    ctx.fillText(`Welcome to Shoot The Space`,canvas.width,canvas.height);
+    ctx.textAlign = 'center'
+    ctx.fillText(`Shoot The Space`,canvas.width/2,canvas.height/2,canvas.width);
     ctx.font = "14px Monospace"
-    ctx.fillText(`Press R to Start The Game`,canvas.width,canvas.height-32);
-    
-    console.log("hi")
+    ctx.fillText(`Press R to Start The Game`,canvas.width/2,canvas.height/2+32, canvas.width);
 }
 
 function restart_game(){
     if(gaming == false){
         gaming = true
         kinematic_bodies = [];
+        spawning = true
+        total_score = 0
         new_player = new Player(canvas.width/2,canvas.height-32);
     }
 }
+
+canvas.addEventListener("click", (e)=>{
+    canvas_active = true;
+    console.log("active")
+})
+function lose_focus(){
+    canvas_active = false;
+}
+
+
+window.addEventListener('keydown', function(e) {
+    if(e.code == "Space" && e.target == document.body) {
+      e.preventDefault();
+    }
+  });
 function gameloop(){
     if(map["KeyR"]){
         delete map["KeyR"]
-        restart_game()
+        console.log(canvas_active)
+        if(canvas_active){
+            restart_game()
+            died = true
+        }
     }
     if(gaming){
         if (Math.floor(total_score / 15000) === bounus_lives+1){
@@ -137,10 +173,13 @@ function gameloop(){
             spawner();
        
         update_game();
+        if(new_player.lives <= 0){
+            gaming = false;
+        }
     }
     else{
         if(!died){
-            //start_screen()
+            start_screen()
         }
         else{
             game_over()
@@ -148,8 +187,5 @@ function gameloop(){
     }
     //ctx.clearRect(0,0,canvas.width,canvas.height)
     //ctx.font = "48px Monospace"
-    ctx.fillStyle="#FFFFFF"
-    ctx.fillText(`Welcome to Shoot The Space`,canvas.width,canvas.height);
-    ctx.fillText(`Press R to Start The Game`,canvas.width,canvas.height-32);
     requestAnimationFrame(gameloop)
 }

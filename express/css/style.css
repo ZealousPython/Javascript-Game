@@ -1,5 +1,36 @@
+html{
+    background-color: black;
+}
 .game-view{
     border:2px solid #CCCCCC;
     background-color: black;
     display:block;
+    max-height: 512px;
+    max-width: 256px;
+}
+.canvas_container{
+    background-color: black;
+    display:flex;
+    justify-content: center;
+}
+.text-input{
+    border:2px solid #CCCCCC;
+    border-radius: none;
+    background-color: #333355;
+    color:whitesmoke;
+}
+.text-input:focus{
+    background-color: #222244;
+}
+.text-input::placeholder{
+    color:#A0A0A0;
+}
+.btn-input{
+    border:2px solid #CCCCCC;
+    border-radius: none;
+    background-color: #222244;
+    color:whitesmoke;
+}
+.btn-input:hover{
+    background-color: #111133;
 }

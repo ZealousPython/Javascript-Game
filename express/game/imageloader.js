@@ -13,6 +13,8 @@ cswarm_images = []
 turret_images = []
 skimmer_images = []
 
+
+background = new PxLoaderImage("game/media/Background.png")
 ebullet_sprite = new PxLoaderImage("game/media/EBullet.png")
 function load_images_from_path(images){
     let return_list = []
@@ -29,6 +31,7 @@ cswarm_images = load_images_from_path(cswarm_paths)
 turret_images = load_images_from_path(turret_paths)
 skimmer_images = load_images_from_path(skimmer_paths)
 loader.add(ebullet_sprite)
+loader.add(background)
 loader.start();
 
 
