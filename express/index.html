@@ -22,9 +22,14 @@
             
         </div>
         <div class="flex-container">
+            <div class="row canvas_container" style="text-align:center;">
+                <h1 style="font: 18px monospace;color:white;"class="col-xs-12"><span style="font:24px monospace;">How To Play</span><br>Use W, A, S, D To move,<br>Use Spacebar to shoot<br>Hold enter to move slower<br>Press R to restart<br><br>Enter your name and press Submit Score after completing a run to sumbit your score to the leaderboard</h1>
+            </div>
             <div class="row">
                 <input class="col-md-8 col-xs-12 text-input" type="text" id="name_input" onclick="lose_focus()" onchange="verify_name" placeholder="Enter Your Name Here">
                 <button class="col-md-4 col-xs-12 btn-input" type="button" onclick="submit_score()">Submit Score</button>
+                <button class="col-md-12 col-xs-12 btn-l" type="button">Leaderboard</button>
+                
             </div>
         </div>
         
@@ -33,15 +38,18 @@
         <!--<button type="button" onclick="update_leaderboard()">Refresh Leaderboard</button>-->
 
         
-        <table id="leaderboard" class="table table-sm table-dark">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Rank</th>
-                </tr>
-            </thead>
-        </table>
+            
+            <table id="leaderboard" class="table table-sm table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Rank</th>
+                    </tr>
+                </thead>
+            </table>
+        
+        
         <script src="game/imageloader.js"></script>
         <script src="client.js"></script>
         <script src="game/gameobjects.js"></script>

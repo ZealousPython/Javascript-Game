@@ -156,6 +156,12 @@ window.addEventListener('keydown', function(e) {
     }
   });
 function gameloop(){
+    if(canvas_active){
+        canvas.style.borderColor = "blue"
+    }
+    else{
+        canvas.style.borderColor = "#CCCCCC"
+    }
     if(map["KeyR"]){
         delete map["KeyR"]
         console.log(canvas_active)

@@ -4,6 +4,7 @@ let ctx = canvas.getContext('2d');
 let gaming = false
 let died = false
 var loader = new PxLoader()
+let canvas_active = false
 player_image_paths = ["game/media/idle.png","game/media/left.png","game/media/right.png"]
 cswarm_paths = ["game/media/CSwarmer/CSwarmer1.png","game/media/CSwarmer/CSwarmer2.png","game/media/CSwarmer/CSwarmer3.png"]
 turret_paths = ["game/media/Turret/Turret1.png","game/media/Turret/Turret2.png"]

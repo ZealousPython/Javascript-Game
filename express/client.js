@@ -66,7 +66,7 @@ function update_leaderboard(){
     let max_loop = scores.length > 10 ? 10: scores.length;
    new_leaderbaord +=`<tbody>`
     for (let i = 0;i < max_loop;i++){
-      new_leaderbaord += `<tr><th scope="row">${scores[i].name}</td><td>${scores[i].score}</td><td>${i+1}</td></tr>`
+      new_leaderbaord += `<tr><td scope="row">${scores[i].name}</td><td>${scores[i].score}</td><td>${i+1}</td></tr>`
     }
     new_leaderbaord +=`</tbody>`
     leaderboard.innerHTML = new_leaderbaord;

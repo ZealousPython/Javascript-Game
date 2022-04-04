@@ -1,3 +1,6 @@
+*{
+    font:20px monospace;
+}
 html{
     background-color: black;
 }
@@ -33,4 +36,13 @@ html{
 }
 .btn-input:hover{
     background-color: #111133;
+}
+
+.btn-l{
+    border:2px solid #CCCCCC;
+    border-radius: none;
+    background-color: #555565;
+    color:whitesmoke;
+    text-align: center;
+    font-size:20px;
 }
