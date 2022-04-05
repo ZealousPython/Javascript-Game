@@ -40,11 +40,17 @@ function sort_scores(all_scores){
   }
   return sorted_scores
 }
-
+name_input.addEventListener("change",()=>{
+  console.log("HI")
+  if (name_input.value.length >= 15){
+    name_input.value = name_input.value.slice(0,15)
+  }
+})
 function submit_score(){
   canvas_active = false
   let name_box = document.getElementById("name_input")
-  if(name_box.value.length > 0 && died && !gaming){
+  if(name_box.value.length > 0 && died && !gaming && total_score > 0){
+    
     socket.emit("send_score",name_box.value, total_score, data_callback);
     total_score = 0
     name_box.value = "";

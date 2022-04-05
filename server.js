@@ -60,7 +60,7 @@ async function get_database(){
 
 async function init(){
     const db = await get_database()
-    await remove_all_scores(db);
+    //await remove_all_scores(db);
     //await db.exec("DELETE FROM scores WHERE id = 0")
     await create_scores_table(db);
     all_scores = await get_all_scores(db);
