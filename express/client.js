@@ -1,6 +1,6 @@
 
 const leaderboard = document.getElementById("leaderboard")
-const socket = io("ws://localhost:8000");
+const socket = io("https://Javascipt-Game.adamofford1.repl.co");
 function callback(){
     console.log("Got Message")
 }

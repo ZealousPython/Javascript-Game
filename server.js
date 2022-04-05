@@ -25,10 +25,10 @@ async function update_database(db){
 }
 
 async function remove_all_scores(db){
-    await db.exec("DELETE FROM scores")
+    await db.exec("DROP TABLE scores")
 }
 async function create_scores_table(db){
-    await db.exec("CREATE TABLE IF NOT EXISTS scores (id INT PRIMARY KEY, name TEXT, score TEXT)");
+    await db.exec("CREATE TABLE IF NOT EXISTS scores (id INT PRIMARY KEY, name TEXT, score INT)");
 }
 
 async function get_all_scores(db){
@@ -60,8 +60,9 @@ async function get_database(){
 
 async function init(){
     const db = await get_database()
+    await remove_all_scores(db);
+    //await db.exec("DELETE FROM scores WHERE id = 0")
     await create_scores_table(db);
-    //await remove_all_scores(db);
     all_scores = await get_all_scores(db);
     console.log(all_scores);
 }

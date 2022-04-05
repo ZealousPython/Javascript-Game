@@ -146,9 +146,11 @@ function restart_game(){
 canvas.addEventListener("click", (e)=>{
     if(!canvas_active)requestAnimationFrame(gameloop);
     canvas_active = true;
+  spawner_timer = setTimeout(()=>{enemy_count = 0; spawner()},12000)
 })
 function lose_focus(){
     canvas_active = false;
+  clearTimeout(spawner_timer)
 }
 
 
@@ -163,6 +165,7 @@ function gameloop(){
         canvas.style.borderColor = "blue"
     }
     else{
+      clearTimeout(spawner_timer)
         canvas.style.borderColor = "#CCCCCC"
     }
     if(map["KeyR"]){
@@ -200,6 +203,7 @@ function gameloop(){
         requestAnimationFrame(gameloop)
     }
     else{
+        clearTimeout(spawner_timer)
         canvas.style.borderColor = "#CCCCCC"
     }
     
