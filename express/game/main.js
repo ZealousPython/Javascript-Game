@@ -26,6 +26,7 @@ function update_game(){
 new_player = new Player(canvas.width/2,canvas.height-32);
 
 
+
 function CSwarm(){
     for (let i = 0; i<8;i++){
         new CSwarmer(40, -16-i*16,1);
@@ -140,6 +141,7 @@ function restart_game(){
         spawning = true
         total_score = 0
         new_player = new Player(canvas.width/2,canvas.height-32);
+      
     }
 }
 
