@@ -53,7 +53,7 @@ async function get_all_scores(db){
 //db.serialize(get_all_scores());\
 async function get_database(){
     return await open({
-        filename: 'extra_files\\leaderboard.db',
+        filename: 'extra_files/leaderboard.db',
         driver: sqlite3.cached.Database
     })
 }
